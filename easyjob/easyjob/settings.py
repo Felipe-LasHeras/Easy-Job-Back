@@ -39,8 +39,8 @@ ROOT_URLCONF = 'easyjob.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
+        'DIRS': [BASE_DIR / 'templates'],  # Debe estar vacío o tener [BASE_DIR / 'templates']
+        'APP_DIRS': True,  # Esto debe estar en True
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -59,11 +59,18 @@ WSGI_APPLICATION = 'easyjob.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'xe',  # SID de Oracle o nombre del servicio
-        'USER': 'easyjob',  # Usuario de Oracle
-        'PASSWORD': 'easyjob123',  # Contraseña
-        'HOST': 'localhost',
-        'PORT': '1521',
+        'NAME': '//localhost:1521/XEPDB1',
+        'USER': 'easyjob',
+        'PASSWORD': 'easyjob123',
+        'HOST': '',
+        'PORT': '',
+        'OPTIONS': {
+            'threaded': True,
+            'use_returning_into': False,  # Esto es importante
+        },
+        'TEST': {
+            'NAME': 'test_XEPDB1',
+        },
     }
 }
 

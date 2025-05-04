@@ -1,0 +1,94 @@
+/* Estilos personalizados para Easy Job */
+
+/* Variables básicas */
+:root {
+  --primary-color: #28a745;
+  --secondary-color: #6c757d;
+  --dark-color: #343a40;
+  --light-color: #f8f9fa;
+}
+
+/* Estilos generales */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Colores personalizados */
+.text-success {
+  color: var(--primary-color) !important;
+}
+
+.bg-success {
+  background-color: var(--primary-color) !important;
+}
+
+.btn-success {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #218838;
+}
+
+/* Sección hero */
+.hero {
+  background-color: #e9f7ef;
+  padding: 5rem 0;
+}
+
+/* Media query básico */
+@media (max-width: 768px) {
+  .hero {
+    padding: 3rem 0;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+}
+
+/* Navbar */
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+/* Cartas y tarjetas */
+.card {
+  margin-bottom: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+/* Formularios */
+.form-control:focus {
+  border-color: var(--primary-color);
+}
+
+/* Input personalizado */
+.input-short {
+  max-width: 400px;
+}
+
+/* Footer */
+footer {
+  margin-top: auto;
+}
+
+footer a {
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsividad básica */
+@media (max-width: 576px) {
+  .card-body {
+    padding: 1rem;
+  }
+}
