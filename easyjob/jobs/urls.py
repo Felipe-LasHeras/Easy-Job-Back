@@ -21,4 +21,5 @@ urlpatterns = [
     path('servicios/', views.servicios_view, name='servicios'),
     path('servicios/<int:servicio_id>/', views.detalle_servicio_view, name='detalle_servicio'),
     path('servicios/<int:servicio_id>/contratar/', views.contratar_servicio_view, name='contratar_servicio'),
+    path('api-externa/', views.api_externa_view, name='api_externa')
 ]

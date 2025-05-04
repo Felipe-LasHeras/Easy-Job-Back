@@ -220,3 +220,23 @@ def contratar_servicio_view(request, servicio_id):
         return redirect('perfil_cliente')
     
     return render(request, 'jobs/contratar_servicio.html', {'servicio': servicio})
+
+
+@login_required
+def api_externa_view(request):
+    """Vista para mostrar datos de APIs externas"""
+    from .external_apis import ExternalAPIManager
+    
+    clima = ExternalAPIManager.get_weather_data()
+    monedas = ExternalAPIManager.get_exchange_rates()
+    noticias = ExternalAPIManager.get_news()
+    usuarios = ExternalAPIManager.get_random_facts()
+    
+    context = {
+        'clima': clima,
+        'monedas': monedas,
+        'noticias': noticias,
+        'usuarios': usuarios
+    }
+    
+    return render(request, 'jobs/api_externa.html', context)
