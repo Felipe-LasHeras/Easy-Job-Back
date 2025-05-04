@@ -1,0 +1,64 @@
+{% extends 'jobs/base.html' %}
+{% load static %}
+
+{% block title %}Servicios - Easy Job{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Buscar Servicios</h1>
+    
+    <!-- Filtros -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-6">
+                    <label for="profesion" class="form-label">Filtrar por profesión</label>
+                    <select class="form-select" id="profesion" name="profesion">
+                        <option value="">Todas las profesiones</option>
+                        {% for profesion in profesiones %}
+                        <option value="{{ profesion.id }}" {% if profesion_seleccionada == profesion.id|stringformat:"s" %}selected{% endif %}>{{ profesion.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6 d-flex align-items-end">
+                    <button type="submit" class="btn btn-success">Filtrar</button>
+                    {% if profesion_seleccionada %}
+                    <a href="{% url 'servicios' %}" class="btn btn-outline-secondary ms-2">Limpiar filtros</a>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Listado de servicios -->
+    <div class="row">
+        {% for servicio in servicios %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">{{ servicio.tipo_servicio }}</h5>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">{{ servicio.profesion.nombre }}</h6>
+                    <p class="card-text">{{ servicio.descripcion|truncatechars:150 }}</p>
+                    <p><strong>Tarifa:</strong> ${{ servicio.tarifa }} por hora</p>
+                    <p><strong>Prestador:</strong> {{ servicio.prestador.get_full_name }}</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'detalle_servicio' servicio.id %}" class="btn btn-success">Ver detalles</a>
+                    {% if user.is_authenticated and not user.es_prestador %}
+                    <a href="{% url 'contratar_servicio' servicio.id %}" class="btn btn-outline-success">Contratar</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                <p class="mb-0">No se encontraron servicios con los filtros seleccionados.</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,314 @@
+{% extends 'jobs/base.html' %}
+{% load static %}
+
+{% block title %}Editar Perfil - Easy Job{% endblock %}
+
+{% block content %}
+<!-- Contenido principal -->
+<div class="container py-5">
+    <div class="row">
+        <!-- Menú lateral -->
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    Mi cuenta
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="{% url 'editar_perfil' %}" class="list-group-item list-group-item-action active">Editar Perfil</a>
+                    {% if user.es_prestador %}
+                    <a href="{% url 'mis_trabajos' %}" class="list-group-item list-group-item-action">Mis Trabajos</a>
+                    {% else %}
+                    <a href="{% url 'perfil_cliente' %}" class="list-group-item list-group-item-action">Mi Perfil</a>
+                    {% endif %}
+                    <a href="{% url 'logout' %}" class="list-group-item list-group-item-action">Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Formulario de edición de perfil -->
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">Editar Perfil</h5>
+                </div>
+                <div class="card-body">
+                    <form id="editorPerfilForm" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="guardar_perfil" value="1">
+                        
+                        <!-- Información general -->
+                        <div class="mb-4">
+                            <h5>Información Personal</h5>
+                            <hr>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="foto" class="form-label">Foto de perfil</label>
+                                    <div class="d-flex align-items-center">
+                                        {% if user.es_prestador %}
+                                        <img src="{% static 'assets/img/avatar.jpg' %}" alt="Avatar" class="rounded-circle me-3" style="width: 100px; height: 100px;">
+                                        {% else %}
+                                        <img src="{% static 'assets/img/avatar-cliente.jpg' %}" alt="Avatar" class="rounded-circle me-3" style="width: 100px; height: 100px;">
+                                        {% endif %}
+                                        <div>
+                                            <input type="file" class="form-control" id="foto" name="foto">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.first_name.id_for_label }}" class="form-label">Nombre</label>
+                                    {{ form.first_name }}
+                                    {% if form.first_name.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.first_name.errors }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.last_name.id_for_label }}" class="form-label">Apellidos</label>
+                                    {{ form.last_name }}
+                                    {% if form.last_name.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.last_name.errors }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.email.id_for_label }}" class="form-label">Correo electrónico</label>
+                                    {{ form.email }}
+                                    {% if form.email.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.email.errors }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.telefono.id_for_label }}" class="form-label">Teléfono</label>
+                                    {{ form.telefono }}
+                                    {% if form.telefono.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.telefono.errors }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.direccion.id_for_label }}" class="form-label">Dirección</label>
+                                {{ form.direccion }}
+                                {% if form.direccion.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.direccion.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        {% if user.es_prestador %}
+                        <!-- Información profesional para prestadores -->
+                        <div class="mb-4" id="infoServicio">
+                            <h5>Información Profesional</h5>
+                            <hr>
+                            
+                            <!-- Formulario para servicios -->
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="guardar_servicio" value="1">
+                                
+                                <div class="mb-3">
+                                    <label for="{{ servicio_form.profesion.id_for_label }}" class="form-label">Profesión</label>
+                                    {{ servicio_form.profesion }}
+                                    {% if servicio_form.profesion.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ servicio_form.profesion.errors }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="{{ servicio_form.tipo_servicio.id_for_label }}" class="form-label">Tipo de servicio</label>
+                                    {{ servicio_form.tipo_servicio }}
+                                    {% if servicio_form.tipo_servicio.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ servicio_form.tipo_servicio.errors }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="{{ servicio_form.descripcion.id_for_label }}" class="form-label">Descripción de servicios</label>
+                                    {{ servicio_form.descripcion }}
+                                    {% if servicio_form.descripcion.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ servicio_form.descripcion.errors }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="{{ servicio_form.tarifa.id_for_label }}" class="form-label">Tarifa por hora (CLP)</label>
+                                    {{ servicio_form.tarifa }}
+                                    {% if servicio_form.tarifa.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ servicio_form.tarifa.errors }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-success">Guardar servicio</button>
+                                </div>
+                            </form>
+                            
+                            <!-- Listado de servicios existentes -->
+                            {% if servicios %}
+                            <div class="mt-4">
+                                <h6>Mis servicios registrados</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Tipo de servicio</th>
+                                                <th>Profesión</th>
+                                                <th>Tarifa</th>
+                                                <th>Estado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for servicio in servicios %}
+                                            <tr>
+                                                <td>{{ servicio.tipo_servicio }}</td>
+                                                <td>{{ servicio.profesion.nombre }}</td>
+                                                <td>${{ servicio.tarifa }}</td>
+                                                <td>
+                                                    {% if servicio.activo %}
+                                                    {% if servicio.activo %}
+                                                    <span class="badge bg-success">Activo</span>
+                                                    {% else %}
+                                                    <span class="badge bg-secondary">Inactivo</span>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Cambiar contraseña -->
+                        <div class="mb-4">
+                            <h5>Cambiar Contraseña</h5>
+                            <hr>
+                            
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="cambiar_password" value="1">
+                                
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="{{ password_form.password_actual.id_for_label }}" class="form-label">Contraseña actual</label>
+                                        {{ password_form.password_actual }}
+                                        {% if password_form.password_actual.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ password_form.password_actual.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="col-md-4 mb-3">
+                                        <label for="{{ password_form.password_nueva.id_for_label }}" class="form-label">Nueva contraseña</label>
+                                        {{ password_form.password_nueva }}
+                                        {% if password_form.password_nueva.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ password_form.password_nueva.errors }}
+                                        </div>
+                                        {% endif %}
+                                        <div class="form-text">
+                                            La contraseña debe tener al menos 6 caracteres.
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4 mb-3">
+                                        <label for="{{ password_form.password_confirm.id_for_label }}" class="form-label">Confirmar nueva contraseña</label>
+                                        {{ password_form.password_confirm }}
+                                        {% if password_form.password_confirm.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ password_form.password_confirm.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <button type="submit" class="btn btn-primary">Cambiar contraseña</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="reset" class="btn btn-outline-secondary">Cancelar cambios</button>
+                            <button type="submit" class="btn btn-success">Guardar cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Agregar clases de Bootstrap a los campos del formulario
+    document.addEventListener('DOMContentLoaded', function() {
+        const formInputs = document.querySelectorAll('input:not([type="hidden"]):not([type="file"]), select, textarea');
+        formInputs.forEach(function(input) {
+            if (input.type !== 'checkbox' && input.type !== 'radio') {
+                input.classList.add('form-control');
+            } else {
+                input.classList.add('form-check-input');
+            }
+        });
+        
+        // Validaciones básicas para el formulario
+        const editorPerfilForm = document.getElementById('editorPerfilForm');
+        
+        editorPerfilForm.addEventListener('submit', function(event) {
+            let isValid = true;
+            
+            // Validar nombre
+            const nombre = document.getElementById('{{ form.first_name.id_for_label }}');
+            if (nombre && nombre.value.trim() === '') {
+                nombre.classList.add('is-invalid');
+                isValid = false;
+            } else if (nombre) {
+                nombre.classList.remove('is-invalid');
+            }
+            
+            // Validar email
+            const email = document.getElementById('{{ form.email.id_for_label }}');
+            if (email && !email.value.includes('@')) {
+                email.classList.add('is-invalid');
+                isValid = false;
+            } else if (email) {
+                email.classList.remove('is-invalid');
+            }
+            
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+{% endblock %}

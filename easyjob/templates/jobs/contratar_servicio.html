@@ -1,0 +1,49 @@
+{% extends 'jobs/base.html' %}
+{% load static %}
+
+{% block title %}Contratar Servicio - Easy Job{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">Contratar Servicio</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h4>{{ servicio.tipo_servicio }}</h4>
+                        <p class="text-muted">{{ servicio.profesion.nombre }}</p>
+                        <p>{{ servicio.descripcion }}</p>
+                        <p><strong>Tarifa:</strong> ${{ servicio.tarifa }} por hora</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h6>Prestador del servicio</h6>
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="{% static 'assets/img/avatar.jpg' %}" alt="Prestador" class="rounded-circle me-3" style="width: 64px; height: 64px;">
+                            <div>
+                                <h5 class="mb-0">{{ servicio.prestador.get_full_name }}</h5>
+                                <p class="text-muted mb-0">{{ servicio.prestador.email }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="alert alert-info">
+                            <p class="mb-0">Al contratar este servicio, establecerás contacto con el prestador para acordar los detalles específicos del trabajo.</p>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'detalle_servicio' servicio.id %}" class="btn btn-outline-secondary">Cancelar</a>
+                            <button type="submit" class="btn btn-success">Confirmar contratación</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

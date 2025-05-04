@@ -1,0 +1,112 @@
+{% extends 'jobs/base.html' %}
+{% load static %}
+
+{% block title %}Mi Perfil - Easy Job{% endblock %}
+
+{% block content %}
+<!-- Contenido principal -->
+<div class="container py-5">
+    <div class="row">
+        <!-- Menú lateral -->
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    Mi cuenta
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="{% url 'perfil_cliente' %}" class="list-group-item list-group-item-action active">Mi Perfil</a>
+                    <a href="{% url 'editar_perfil' %}" class="list-group-item list-group-item-action">Editar Perfil</a>
+                    <a href="{% url 'servicios' %}" class="list-group-item list-group-item-action">Buscar Servicios</a>
+                    <a href="{% url 'logout' %}" class="list-group-item list-group-item-action">Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Perfil del cliente -->
+        <div class="col-md-9">
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">Mi Perfil</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-3 text-center">
+                            <img src="{% static 'assets/img/avatar-cliente.jpg' %}" alt="Foto de perfil" class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px;">
+                        </div>
+                        <div class="col-md-9">
+                            <h4>{{ user.get_full_name }}</h4>
+                            <p class="text-muted">Cliente desde {{ user.date_joined|date:"F Y" }}</p>
+                            
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <p><strong>Correo electrónico:</strong> {{ user.email }}</p>
+                                    <p><strong>Teléfono:</strong> {{ user.telefono|default:"No especificado" }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Dirección:</strong> {{ user.direccion|default:"No especificada" }}</p>
+                                    <p><strong>Servicios contratados:</strong> {{ trabajos|length }}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-3">
+                                <a href="{% url 'editar_perfil' %}" class="btn btn-outline-success">Editar perfil</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Servicios contratados recientes -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">Servicios contratados recientes</h5>
+                </div>
+                <div class="card-body">
+                    {% if trabajos %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Servicio</th>
+                                    <th>Prestador</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for trabajo in trabajos %}
+                                <tr>
+                                    <td>{{ trabajo.servicio.tipo_servicio }}</td>
+                                    <td>{{ trabajo.servicio.prestador.get_full_name }}</td>
+                                    <td>{{ trabajo.fecha_solicitud|date:"d/m/Y" }}</td>
+                                    <td>
+                                        {% if trabajo.estado == 'agendado' %}
+                                        <span class="badge bg-info">Agendado</span>
+                                        {% elif trabajo.estado == 'en_proceso' %}
+                                        <span class="badge bg-warning text-dark">En proceso</span>
+                                        {% elif trabajo.estado == 'completado' %}
+                                        <span class="badge bg-success">Completado</span>
+                                        {% else %}
+                                        <span class="badge bg-secondary">Cancelado</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'detalle_servicio' trabajo.servicio.id %}" class="btn btn-outline-success btn-sm">Ver detalles</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <p class="mb-0">No has contratado servicios aún. <a href="{% url 'servicios' %}">Descubre servicios disponibles</a>.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

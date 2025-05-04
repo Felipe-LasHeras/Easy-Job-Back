@@ -1,0 +1,126 @@
+{% extends 'jobs/base.html' %}
+{% load static %}
+
+{% block title %}{{ servicio.tipo_servicio }} - Easy Job{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">{{ servicio.tipo_servicio }}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h6 class="text-muted">{{ servicio.profesion.nombre }}</h6>
+                        <p>{{ servicio.descripcion }}</p>
+                        <p><strong>Tarifa:</strong> ${{ servicio.tarifa }} por hora</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h6>Prestador del servicio</h6>
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="{% static 'assets/img/avatar.jpg' %}" alt="Prestador" class="rounded-circle me-3" style="width: 64px; height: 64px;">
+                            <div>
+                                <h5 class="mb-0">{{ servicio.prestador.get_full_name }}</h5>
+                                <p class="text-muted mb-0">Prestador desde {{ servicio.prestador.date_joined|date:"F Y" }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if user.is_authenticated and not user.es_prestador %}
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'contratar_servicio' servicio.id %}" class="btn btn-success">Contratar este servicio</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Valoraciones -->
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">Valoraciones del prestador</h5>
+                </div>
+                <div class="card-body">
+                    {% if valoraciones %}
+                    {% for valoracion in valoraciones %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="d-flex mb-3">
+                                <img src="{% static 'assets/img/avatar-cliente.jpg' %}" alt="Cliente" class="rounded-circle me-3" style="width: 48px; height: 48px;">
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0">{{ valoracion.trabajo.cliente.get_full_name }}</h6>
+                                        <div class="text-warning">
+                                            <small>
+                                            {% for i in '12345'|make_list %}
+                                                {% if forloop.counter <= valoracion.puntuacion %}
+                                                ★
+                                                {% else %}
+                                                ☆
+                                                {% endif %}
+                                            {% endfor %}
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <p class="text-muted mb-2">{{ valoracion.fecha|date:"d/m/Y" }}</p>
+                                    <p>{{ valoracion.comentario|default:"Sin comentario" }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="alert alert-info">
+                        <p class="mb-0">Este prestador aún no tiene valoraciones.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">Información de contacto</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Teléfono:</strong> {{ servicio.prestador.telefono|default:"No especificado" }}</p>
+                    <p><strong>Email:</strong> {{ servicio.prestador.email }}</p>
+                    <p><strong>Ubicación:</strong> {{ servicio.prestador.direccion|default:"No especificada" }}</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">Otros servicios similares</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        {% for servicio_similar in servicio.profesion.servicio_set.all|slice:":5" %}
+                        {% if servicio_similar.id != servicio.id %}
+                        <a href="{% url 'detalle_servicio' servicio_similar.id %}" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ servicio_similar.tipo_servicio }}</h6>
+                                <small>${{ servicio_similar.tarifa }}</small>
+                            </div>
+                            <p class="mb-1">{{ servicio_similar.prestador.get_full_name }}</p>
+                        </a>
+                        {% endif %}
+                        {% empty %}
+                        <div class="alert alert-info">
+                            <p class="mb-0">No hay servicios similares disponibles.</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <a href="{% url 'servicios' %}" class="btn btn-outline-secondary">Volver a la lista de servicios</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'jobs/base.html' %}
+{% load static %}
+
+{% block title %}Easy Job - Conectamos servicios con clientes{% endblock %}
+
+{% block content %}
+<!-- Sección principal -->
+<section class="hero bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Únete a Easy Job</h1>
+                <p class="lead">Conectamos a prestadores de servicios profesionales con clientes que necesitan soluciones de calidad.</p>
+                <p>Ya sea que busques ofrecer tus habilidades o necesites contratar un servicio, Easy Job es tu plataforma.</p>
+                <div class="mt-4">
+                    <a href="{% url 'registro' %}" class="btn btn-success btn-lg me-2">Registra tu servicio</a>
+                    <a href="{% url 'servicios' %}" class="btn btn-outline-dark btn-lg">Encuentra un servicio</a>
+                </div>
+            </div>
+            <div class="col-md-6 text-center">
+                <img src="{% static 'assets/img/hero-image.jpg' %}" alt="Easy Job Platform" class="img-fluid rounded">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Servicios destacados -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Servicios destacados</h2>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img src="{% static 'assets/img/service-1.jpg' %}" class="card-img-top" alt="Servicio 1">
+                    <div class="card-body">
+                        <h5 class="card-title">Programación y Desarrollo</h5>
+                        <p class="card-text">Profesionales en desarrollo web, móvil y de software.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img src="{% static 'assets/img/service-2.jpg' %}" class="card-img-top" alt="Servicio 2">
+                    <div class="card-body">
+                        <h5 class="card-title">Diseño Gráfico</h5>
+                        <p class="card-text">Diseñadores profesionales para tus proyectos creativos.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img src="{% static 'assets/img/service-3.jpg' %}" class="card-img-top" alt="Servicio 3">
+                    <div class="card-body">
+                        <h5 class="card-title">Marketing Digital</h5>
+                        <p class="card-text">Expertos en posicionamiento y estrategias de marketing.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sección Nosotros -->
+<section id="nosotros" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4">Nosotros</h2>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <h4>Los mejores servicios</h4>
+                <p>En Easy Job, conectamos a los mejores profesionales con clientes que buscan servicios de calidad. Nuestra plataforma garantiza una experiencia segura y eficiente para ambas partes.</p>
+            </div>
+            <div class="col-md-6 mb-4">
+                <h4>Experiencia confiable</h4>
+                <p>Contamos con un sistema de calificaciones y comentarios que permite a los usuarios evaluar la calidad de los servicios recibidos, creando una comunidad transparente y confiable.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
