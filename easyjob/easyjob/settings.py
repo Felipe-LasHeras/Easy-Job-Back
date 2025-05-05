@@ -143,3 +143,5 @@ LOGOUT_REDIRECT_URL = 'home'
 # Configuración de mensajes
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
+#API
+OPENWEATHERMAP_API_KEY = os.environ.get('OPENWEATHERMAP_API_KEY')

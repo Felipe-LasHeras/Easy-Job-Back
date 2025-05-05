@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Datos Externos</title>
+</head>
+<body>
+    <h1>Datos Climáticos</h1>
+    {% if weather_data %}
+        <p><strong>Ciudad:</strong> {{ weather_data.name }}</p>
+        <p><strong>Temperatura:</strong> {{ weather_data.main.temp }} °C</p>
+        <p><strong>Clima:</strong> {{ weather_data.weather.0.description }}</p>
+    {% else %}
+        <p>No se pudieron obtener los datos climáticos.</p>
+    {% endif %}
+
+    <h1>Código de Ocupación</h1>
+    {% if occupation_code %}
+        <p><strong>Descripción:</strong> {{ description }}</p>
+        <p><strong>Código CIUO:</strong> {{ occupation_code.code }}</p>
+    {% else %}
+        <p>No se pudo obtener el código de ocupación.</p>
+    {% endif %}
+</body>
+</html>
