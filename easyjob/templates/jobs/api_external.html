@@ -1,26 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}Datos Externos{% endblock %}
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Datos Externos</title>
-</head>
-<body>
-    <h1>Datos Climáticos</h1>
-    {% if weather_data %}
-        <p><strong>Ciudad:</strong> {{ weather_data.name }}</p>
-        <p><strong>Temperatura:</strong> {{ weather_data.main.temp }} °C</p>
-        <p><strong>Clima:</strong> {{ weather_data.weather.0.description }}</p>
-    {% else %}
-        <p>No se pudieron obtener los datos climáticos.</p>
-    {% endif %}
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4">Información en Tiempo Real</h1>
 
-    <h1>Código de Ocupación</h1>
-    {% if occupation_code %}
-        <p><strong>Descripción:</strong> {{ description }}</p>
-        <p><strong>Código CIUO:</strong> {{ occupation_code.code }}</p>
-    {% else %}
-        <p>No se pudo obtener el código de ocupación.</p>
-    {% endif %}
-</body>
-</html>
+    <!-- Clima -->
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            Clima Actual
+        </div>
+        <div class="card-body">
+            {% if clima %}
+                <p><strong>Ciudad:</strong> {{ clima.ciudad }}</p>
+                <p><strong>Temperatura:</strong> {{ clima.temperatura }} °C</p>
+                <p><strong>Descripción:</strong> {{ clima.descripcion }}</p>
+                <p><strong>Humedad:</strong> {{ clima.humedad }}%</p>
+                <p><strong>Viento:</strong> {{ clima.viento }} km/h</p>
+            {% else %}
+                <p>No se pudieron obtener los datos del clima.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Tasas de Cambio -->
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            Tasas de Cambio
+        </div>
+        <div class="card-body">
+            {% if monedas %}
+                <p><strong>Moneda Base:</strong> {{ monedas.base }}</p>
+                <p><strong>USD:</strong> {{ monedas.USD }}</p>
+                <p><strong>EUR:</strong> {{ monedas.EUR }}</p>
+            {% else %}
+                <p>No se pudieron obtener las tasas de cambio.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Noticias -->
+    <div class="card mb-4">
+        <div class="card-header bg-warning text-dark">
+            Noticias Tecnológicas
+        </div>
+        <div class="card-body">
+            {% if noticias %}
+                <ul>
+                    {% for item in noticias %}
+                        <li><a href="{{ item.url }}" target="_blank">{{ item.titulo }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No se pudieron obtener noticias.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Hechos Curiosos -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            Hechos Curiosos (Usuarios Aleatorios)
+        </div>
+        <div class="card-body">
+            {% if usuarios %}
+                <ul>
+                    {% for fact in usuarios %}
+                        <li>{{ fact.nombre }} - {{ fact.email }} - {{ fact.pais }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No se pudieron obtener hechos curiosos.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

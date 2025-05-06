@@ -27,6 +27,6 @@ urlpatterns = [
 urlpatterns =   [
     #   Datos externos
     path('datos-externos/', views.external_data_view, name='external_data'),
-   
+    path('api-externa/', views.api_external_view, name='api_externa'),
 
     ]

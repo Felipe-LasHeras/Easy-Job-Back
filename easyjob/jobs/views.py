@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from .models import Usuario, Servicio, Trabajo, Profesion
 from .forms import (RegistroUsuarioForm, EditarPerfilForm, CambiarPasswordForm, 
                     RecuperacionPasswordForm, CodigoVerificacionForm, ServicioForm)
-from .utils.external_apis import get_weather_data, get_occupation_code
+from .external_apis import ExternalAPIManager 
 from django.conf import settings
 
 def home(request):
@@ -243,18 +243,4 @@ def api_externa_view(request):
     
     return render(request, 'jobs/api_externa.html', context)
 
-def external_data_view(request):
-    city_name = "Santiago"
-    description = "Ingeniero de software desarrollando aplicaciones web"
 
-    weather_data = get_weather_data(city_name, api_key='28fcf1158ed377a137b851435aa43c18')
-    occupation_code = get_occupation_code(description)
-
-    context = {
-        'weather_data': weather_data,
-        'occupation_code': occupation_code,
-        'description': description
-    }
-    return render(request, 'api_external.html', context)
-
-weather_data = get_weather_data(city_name, api_key=settings.OPENWEATHERMAP_API_KEY)
