@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.http import JsonResponse
 from django.urls import reverse_lazy
 from .models import Usuario, Servicio, Trabajo, Profesion
 from .forms import (RegistroUsuarioForm, EditarPerfilForm, CambiarPasswordForm, 
@@ -243,4 +244,6 @@ def api_externa_view(request):
     
     return render(request, 'jobs/api_externa.html', context)
 
+
+external_data_view = api_externa_view
 

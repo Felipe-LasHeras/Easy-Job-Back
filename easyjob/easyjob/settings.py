@@ -2,6 +2,8 @@
 import os
 from pathlib import Path
 from datetime import timedelta
+from decouple import config
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -143,5 +145,9 @@ LOGOUT_REDIRECT_URL = 'home'
 # Configuración de mensajes
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
-#API
-OPENWEATHERMAP_API_KEY = os.environ.get('OPENWEATHERMAP_API_KEY')
+# Claves API externas (usar variables de entorno en producción)
+
+OPENWEATHERMAP_API_KEY = config('OPENWEATHERMAP_API_KEY')
+EXCHANGE_API_KEY = config('EXCHANGE_API_KEY')
+NEWS_API_KEY = config('NEWS_API_KEY')
+
