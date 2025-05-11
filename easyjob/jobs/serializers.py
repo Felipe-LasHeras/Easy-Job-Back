@@ -1,6 +1,6 @@
 # jobs/serializers.py
 from rest_framework import serializers
-from .models import Usuario, Servicio, Trabajo, Profesion, Valoracion
+from .models import Usuario, Servicio, Trabajo, Profesion, Valoracion, PublicacionEmpleo
 
 class ProfesionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -48,3 +48,9 @@ class ValoracionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Valoracion
         fields = ['id', 'puntuacion', 'comentario', 'fecha', 'trabajo']
+
+class PublicacionEmpleoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PublicacionEmpleo
+        fields = ['id', 'titulo', 'descripcion', 'fecha_publicacion', 'prestador']
+        read_only_fields = ['prestador']

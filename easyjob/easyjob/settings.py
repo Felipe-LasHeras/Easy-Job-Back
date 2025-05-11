@@ -70,6 +70,7 @@ DATABASES = {
         'HOST': '',
         'PORT': '',
         'OPTIONS': {
+            'threaded': True,
             'use_returning_into': False,
         },
         'TEST': {

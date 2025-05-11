@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
 from django.urls import reverse_lazy
-from .models import Usuario, Servicio, Trabajo, Profesion
+from .models import Usuario, Servicio, Trabajo, Profesion, PublicacionEmpleo
 from .forms import (RegistroUsuarioForm, EditarPerfilForm, CambiarPasswordForm, 
                     RecuperacionPasswordForm, CodigoVerificacionForm, ServicioForm)
 from .external_apis import ExternalAPIManager 

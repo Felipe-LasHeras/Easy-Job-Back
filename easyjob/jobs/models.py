@@ -65,3 +65,14 @@ class Valoracion(models.Model):
     class Meta:
         verbose_name = "Valoración"
         verbose_name_plural = "Valoraciones"
+
+
+class PublicacionEmpleo(models.Model):
+    """Modelo para gestionar publicaciones de empleo"""
+    titulo = models.CharField(max_length=200)
+    descripcion = models.TextField()
+    fecha_publicacion = models.DateTimeField(auto_now_add=True)
+    prestador = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='publicaciones')
+
+    def __str__(self):
+        return self.titulo

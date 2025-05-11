@@ -3,8 +3,8 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Servicio, Trabajo, Valoracion, Profesion
-from .serializers import ServicioSerializer, TrabajoSerializer, ValoracionSerializer, ProfesionSerializer
+from .models import Servicio, Trabajo, Valoracion, Profesion, PublicacionEmpleo
+from .serializers import ServicioSerializer, TrabajoSerializer, ValoracionSerializer, ProfesionSerializer, PublicacionEmpleoSerializer
 
 class ServicioViewSet(viewsets.ModelViewSet):
     """API para gestionar servicios"""
@@ -54,6 +54,16 @@ class APIStatusView(APIView):
             'message': 'API de Easy Job funcionando correctamente',
             'version': '1.0'
         })
+    
+class PublicacionEmpleoViewSet(viewsets.ModelViewSet):
+    """API para gestionar publicaciones de empleo"""
+    queryset = PublicacionEmpleo.objects.all()
+    serializer_class = PublicacionEmpleoSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        """Asignar el usuario como prestador al crear una publicación"""
+        serializer.save(prestador=self.request.user)
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])

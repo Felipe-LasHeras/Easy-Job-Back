@@ -8,6 +8,8 @@ router = DefaultRouter()
 router.register(r'servicios', api_views.ServicioViewSet, basename='servicio')
 router.register(r'trabajos', api_views.TrabajoViewSet, basename='trabajo')
 router.register(r'valoraciones', api_views.ValoracionViewSet, basename='valoracion')
+router.register(r'publicaciones-empleo', api_views.PublicacionEmpleoViewSet, basename='publicacion_empleo')
+
 
 urlpatterns = [
     path('', include(router.urls)),
