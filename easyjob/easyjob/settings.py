@@ -60,24 +60,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'easyjob.wsgi.application'
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+os.environ["TNS_ADMIN"] = os.path.join(BASE_DIR, "Wallet_Sumativa")
+
+
 # Database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': '//localhost:1521/XEPDB1',
-        'USER': 'easyjob',
-        'PASSWORD': 'easyjob123',
-        'HOST': '',
-        'PORT': '',
+        'NAME': 'sumativa_high', 
+        'USER': 'ADMIN',
+        'PASSWORD': 'MonayPerla2020',
         'OPTIONS': {
-            'threaded': True,
-            'use_returning_into': False,
-        },
-        'TEST': {
-            'NAME': 'test_XEPDB1',
-        },
+            'wallet_location': os.path.join(BASE_DIR, 'Wallet_Sumativa'),
+            'ssl_server_dn_match': False,
+        }
     }
 }
+
 
 # REST Framework settings
 REST_FRAMEWORK = {

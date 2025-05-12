@@ -1,3 +1,4 @@
+
 {% extends 'jobs/base.html' %}
 {% load static %}
 
@@ -111,156 +112,154 @@
                                 {% endif %}
                             </div>
                         </div>
+                    </form> <!-- Cierre del formulario de edición de perfil -->
                         
-                        {% if user.es_prestador %}
-                        <!-- Información profesional para prestadores -->
-                        <div class="mb-4" id="infoServicio">
-                            <h5>Información Profesional</h5>
-                            <hr>
+                    {% if user.es_prestador %}
+                    <!-- Información profesional para prestadores -->
+                    <div class="mb-4" id="infoServicio">
+                        <h5>Información Profesional</h5>
+                        <hr>
+                        
+                        <!-- Formulario para servicios -->
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="guardar_servicio" value="1">
                             
-                            <!-- Formulario para servicios -->
-                            <form method="post">
-                                {% csrf_token %}
-                                <input type="hidden" name="guardar_servicio" value="1">
-                                
-                                <div class="mb-3">
-                                    <label for="{{ servicio_form.profesion.id_for_label }}" class="form-label">Profesión</label>
-                                    {{ servicio_form.profesion }}
-                                    {% if servicio_form.profesion.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ servicio_form.profesion.errors }}
-                                    </div>
-                                    {% endif %}
+                            <div class="mb-3">
+                                <label for="{{ servicio_form.profesion.id_for_label }}" class="form-label">Profesión</label>
+                                {{ servicio_form.profesion }}
+                                {% if servicio_form.profesion.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ servicio_form.profesion.errors }}
                                 </div>
-                                
-                                <div class="mb-3">
-                                    <label for="{{ servicio_form.tipo_servicio.id_for_label }}" class="form-label">Tipo de servicio</label>
-                                    {{ servicio_form.tipo_servicio }}
-                                    {% if servicio_form.tipo_servicio.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ servicio_form.tipo_servicio.errors }}
-                                    </div>
-                                    {% endif %}
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label for="{{ servicio_form.descripcion.id_for_label }}" class="form-label">Descripción de servicios</label>
-                                    {{ servicio_form.descripcion }}
-                                    {% if servicio_form.descripcion.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ servicio_form.descripcion.errors }}
-                                    </div>
-                                    {% endif %}
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label for="{{ servicio_form.tarifa.id_for_label }}" class="form-label">Tarifa por hora (CLP)</label>
-                                    {{ servicio_form.tarifa }}
-                                    {% if servicio_form.tarifa.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ servicio_form.tarifa.errors }}
-                                    </div>
-                                    {% endif %}
-                                </div>
-                                
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-success">Guardar servicio</button>
-                                </div>
-                            </form>
-                            
-                            <!-- Listado de servicios existentes -->
-                            {% if servicios %}
-                            <div class="mt-4">
-                                <h6>Mis servicios registrados</h6>
-                                <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Tipo de servicio</th>
-                                                <th>Profesión</th>
-                                                <th>Tarifa</th>
-                                                <th>Estado</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for servicio in servicios %}
-                                            <tr>
-                                                <td>{{ servicio.tipo_servicio }}</td>
-                                                <td>{{ servicio.profesion.nombre }}</td>
-                                                <td>${{ servicio.tarifa }}</td>
-                                                <td>
-                                                    {% if servicio.activo %}
-                                                    {% if servicio.activo %}
-                                                    <span class="badge bg-success">Activo</span>
-                                                    {% else %}
-                                                    <span class="badge bg-secondary">Inactivo</span>
-                                                    {% endif %}
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
+                                {% endif %}
                             </div>
-                            {% endif %}
+                            
+                            <div class="mb-3">
+                                <label for="{{ servicio_form.tipo_servicio.id_for_label }}" class="form-label">Tipo de servicio</label>
+                                {{ servicio_form.tipo_servicio }}
+                                {% if servicio_form.tipo_servicio.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ servicio_form.tipo_servicio.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="{{ servicio_form.descripcion.id_for_label }}" class="form-label">Descripción de servicios</label>
+                                {{ servicio_form.descripcion }}
+                                {% if servicio_form.descripcion.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ servicio_form.descripcion.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="{{ servicio_form.tarifa.id_for_label }}" class="form-label">Tarifa por hora (CLP)</label>
+                                {{ servicio_form.tarifa }}
+                                {% if servicio_form.tarifa.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ servicio_form.tarifa.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success">Guardar servicio</button>
+                            </div>
+                        </form>
+                        
+                        <!-- Listado de servicios existentes -->
+                        {% if servicios %}
+                        <div class="mt-4">
+                            <h6>Mis servicios registrados</h6>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Tipo de servicio</th>
+                                            <th>Profesión</th>
+                                            <th>Tarifa</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for servicio in servicios %}
+                                        <tr>
+                                            <td>{{ servicio.tipo_servicio }}</td>
+                                            <td>{{ servicio.profesion.nombre }}</td>
+                                            <td>${{ servicio.tarifa }}</td>
+                                            <td>
+                                                {% if servicio.activo %}
+                                                <span class="badge bg-success">Activo</span>
+                                                {% else %}
+                                                <span class="badge bg-secondary">Inactivo</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         {% endif %}
-                        
-                        <!-- Cambiar contraseña -->
-                        <div class="mb-4">
-                            <h5>Cambiar Contraseña</h5>
-                            <hr>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Formulario de cambio de contraseña -->
+                    <div class="mb-4 mt-5">
+                        <h5>Cambiar Contraseña</h5>
+                        <hr>
+                        <form id="passwordForm" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="cambiar_password" value="1">
                             
-                            <form method="post">
-                                {% csrf_token %}
-                                <input type="hidden" name="cambiar_password" value="1">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="{{ password_form.password_actual.id_for_label }}" class="form-label">Contraseña actual</label>
+                                    {{ password_form.password_actual }}
+                                    {% if password_form.password_actual.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ password_form.password_actual.errors }}
+                                    </div>
+                                    {% endif %}
+                                </div>
                                 
-                                <div class="row">
-                                    <div class="col-md-4 mb-3">
-                                        <label for="{{ password_form.password_actual.id_for_label }}" class="form-label">Contraseña actual</label>
-                                        {{ password_form.password_actual }}
-                                        {% if password_form.password_actual.errors %}
-                                        <div class="invalid-feedback d-block">
-                                            {{ password_form.password_actual.errors }}
-                                        </div>
-                                        {% endif %}
+                                <div class="col-md-4 mb-3">
+                                    <label for="{{ password_form.password_nueva.id_for_label }}" class="form-label">Nueva contraseña</label>
+                                    {{ password_form.password_nueva }}
+                                    {% if password_form.password_nueva.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ password_form.password_nueva.errors }}
                                     </div>
-                                    
-                                    <div class="col-md-4 mb-3">
-                                        <label for="{{ password_form.password_nueva.id_for_label }}" class="form-label">Nueva contraseña</label>
-                                        {{ password_form.password_nueva }}
-                                        {% if password_form.password_nueva.errors %}
-                                        <div class="invalid-feedback d-block">
-                                            {{ password_form.password_nueva.errors }}
-                                        </div>
-                                        {% endif %}
-                                        <div class="form-text">
-                                            La contraseña debe tener al menos 6 caracteres.
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-md-4 mb-3">
-                                        <label for="{{ password_form.password_confirm.id_for_label }}" class="form-label">Confirmar nueva contraseña</label>
-                                        {{ password_form.password_confirm }}
-                                        {% if password_form.password_confirm.errors %}
-                                        <div class="invalid-feedback d-block">
-                                            {{ password_form.password_confirm.errors }}
-                                        </div>
-                                        {% endif %}
+                                    {% endif %}
+                                    <div class="form-text">
+                                        La contraseña debe tener al menos 6 caracteres.
                                     </div>
                                 </div>
                                 
-                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <button type="submit" class="btn btn-primary">Cambiar contraseña</button>
+                                <div class="col-md-4 mb-3">
+                                    <label for="{{ password_form.password_confirm.id_for_label }}" class="form-label">Confirmar nueva contraseña</label>
+                                    {{ password_form.password_confirm }}
+                                    {% if password_form.password_confirm.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ password_form.password_confirm.errors }}
+                                    </div>
+                                    {% endif %}
                                 </div>
-                            </form>
-                        </div>
-                        
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <button type="reset" class="btn btn-outline-secondary">Cancelar cambios</button>
-                            <button type="submit" class="btn btn-success">Guardar cambios</button>
-                        </div>
-                    </form>
+                            </div>
+                            
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button type="submit" class="btn btn-primary">Cambiar contraseña</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="reset" class="btn btn-outline-secondary">Cancelar cambios</button>
+                        <button type="submit" class="btn btn-success">Guardar cambios</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -309,6 +308,25 @@
                 event.preventDefault();
             }
         });
+    });
+
+    // Validación de contraseña en el frontend
+    document.addEventListener("DOMContentLoaded", function () {
+        const passwordForm = document.getElementById("passwordForm");
+        if (passwordForm) {
+            passwordForm.addEventListener("submit", function (e) {
+                const nueva = document.getElementById("id_password_nueva");
+                const confirmar = document.getElementById("id_password_confirm");
+
+                if (nueva && nueva.value.length < 6) {
+                    alert("La nueva contraseña debe tener al menos 6 caracteres.");
+                    e.preventDefault();
+                } else if (nueva && confirmar && nueva.value !== confirmar.value) {
+                    alert("Las contraseñas no coinciden.");
+                    e.preventDefault();
+                }
+            });
+        }
     });
 </script>
 {% endblock %}
