@@ -69,15 +69,12 @@ os.environ["TNS_ADMIN"] = os.path.join(BASE_DIR, "Wallet_Sumativa")
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'sumativa_high', 
+        'NAME': '(DESCRIPTION=(RETRY_COUNT=20)(RETRY_DELAY=3)(ADDRESS=(PROTOCOL=tcps)(PORT=1522)(HOST=adb.sa-santiago-1.oraclecloud.com))(CONNECT_DATA=(SERVICE_NAME=g3107f3eab58d6a_sumativa_high.adb.oraclecloud.com))(SECURITY=(SSL_SERVER_DN_MATCH=yes)))',
         'USER': 'ADMIN',
         'PASSWORD': 'MonayPerla2020',
-        'OPTIONS': {
-            'wallet_location': os.path.join(BASE_DIR, 'Wallet_Sumativa'),
-            'ssl_server_dn_match': False,
-        }
     }
 }
+
 
 
 # REST Framework settings
