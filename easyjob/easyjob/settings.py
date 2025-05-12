@@ -62,7 +62,7 @@ WSGI_APPLICATION = 'easyjob.wsgi.application'
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-os.environ["TNS_ADMIN"] = os.path.join(BASE_DIR, "Wallet_Sumativa")
+
 
 
 # Database
