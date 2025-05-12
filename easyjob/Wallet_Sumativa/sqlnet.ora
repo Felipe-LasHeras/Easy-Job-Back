@@ -1,12 +1,2 @@
-WALLET_LOCATION = 
-  (SOURCE = 
-    (METHOD = file) 
-    (METHOD_DATA = 
-      (DIRECTORY = "C:/Users/tanga/Desktop/evaluacion final/Easy-Job-Back/easyjob/Wallet_Sumativa")
-    )
-  )
-
-SQLNET.WALLET_OVERRIDE = TRUE
-SSL_SERVER_DN_MATCH = FALSE
-
-
+WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="?/network/admin")))
+SSL_SERVER_DN_MATCH=yes
